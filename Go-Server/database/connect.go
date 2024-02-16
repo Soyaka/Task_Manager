@@ -1,6 +1,9 @@
 package database
 
 import (
+	"fmt"
+	"log"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -8,11 +11,11 @@ import (
 var Db *gorm.DB
 
 func Connect() {
-	dsn := "host=localhost user=root password= dbname=tasks port=3306 sslmode=disable "
+	dsn := "user=soyaka dbname=task_manager sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil{
-
-		panic("can't connect to database")
+	if err != nil {
+		log.Fatal("Error connecting to the database:", err)
 	}
+	fmt.Println("Database connected!!!")
 	Db = db
 }
