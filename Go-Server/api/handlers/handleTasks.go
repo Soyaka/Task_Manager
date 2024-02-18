@@ -4,14 +4,34 @@ import (
 	"log"
 	"main/api/models"
 	"main/database"
+	"main/utils"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 )
 
-func GetTasks(c *fiber.Ctx) error {
+//FIXME: Add Authentificatin to these handlers
+
+func GetTasks(c *fiber.Ctx) error  {
 	var tasks []models.Task
-	database.Db.Find(&tasks)
-	return c.Status(200).JSON(tasks)
+
+	cookieString := c.Cookies("token")
+	if cookieString == "" {
+		return c.Status(fiber.StatusNotFound).SendString("Token cookie not found")
+
+	}
+	claims, err := utils.ParseToken(cookieString)
+
+	if err!=nil{
+		return c.Status(402).JSON(fiber.Map{"error":"unauthorized"})
+		
+	}
+	if claims.ID == uuid.Nil {
+		return c.Status(401).JSON(fiber.Map{"error": "unauthorized"})
+	}
+
+	database.Db.Where("userid=?", claims.ID).Find(&tasks)
+	 return c.Status(200).JSON(tasks)
 }
 
 func GetTask(c *fiber.Ctx) error {

@@ -9,6 +9,8 @@ var App *fiber.App
 
 func init() {
 	App = fiber.New()
+	App.Post("signup", handlers.SignUp)
+	App.Post("login", handlers.Login)
 	Api := App.Group("/api")
 	Api.Get("/tasks", handlers.GetTasks)
 	Api.Get("/task/:id", handlers.GetTask)
