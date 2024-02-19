@@ -15,9 +15,9 @@ func init() {
 	Api := App.Group("/api")
 	Api.Use(middleware.Authentificator)
 	Api.Get("/tasks", handlers.GetAllTasks)
-	Api.Get("/task/:id", handlers.GetTask)
+	//Api.Get("/task/:id", handlers.GetTask)
 	Api.Post("/task", handlers.AddTask)
-	Api.Put("/task/:id", handlers.PatchTask)
-	Api.Delete("task/:id", handlers.DeleteTask)
+	//Api.Put("/task/:id", handlers.PatchTask)
+	//Api.Delete("task/:id", handlers.DeleteTask)
 	Api.Get("users", handlers.ListUsers)
 }

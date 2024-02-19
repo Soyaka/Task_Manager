@@ -37,15 +37,15 @@ func ListUsers(c *fiber.Ctx) error {
 
 func Login(c *fiber.Ctx) error {
 	var user User
+	var existingUser User
+
 	if err := c.BodyParser(&user); err != nil {
 		return c.Status(400).JSON(fiber.Map{"error": err.Error()})
 
 	}
-	var existingUser User
 	database.Db.Where("login =?", user.Login).Find(&existingUser)
 	if existingUser.ID == uuid.Nil {
 		return c.Status(400).JSON(fiber.Map{"error": "there is no user with this credentionals"})
-
 	}
 	errHash := utils.CompareHashPwd(user.Pwd, existingUser.Pwd)
 	if !errHash {
@@ -87,8 +87,9 @@ func SignUp(c *fiber.Ctx) error {
 	}
 	var existingUser User
 
-	database.Db.Where("login =?", user.Login).First(&existingUser)
-	if existingUser.Login != "" {
+	data := database.Db.Where("login =?", user.Login).Find(&existingUser)
+
+	if data.RowsAffected != 0 {
 		return c.Status(401).JSON(fiber.Map{"error": "user Already in"})
 
 	}
