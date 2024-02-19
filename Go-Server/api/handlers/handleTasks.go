@@ -11,8 +11,8 @@ import (
 )
 
 //FIXME: Add Authentificatin to these handlers
-
-func GetTasks(c *fiber.Ctx) error  {
+//TODO: remove the athentication and set a middleware for it
+func GetAllTasks(c *fiber.Ctx) error  {
 	var tasks []models.Task
 
 	cookieString := c.Cookies("token")
@@ -26,11 +26,12 @@ func GetTasks(c *fiber.Ctx) error  {
 		return c.Status(402).JSON(fiber.Map{"error":"unauthorized"})
 		
 	}
+
 	if claims.ID == uuid.Nil {
-		return c.Status(401).JSON(fiber.Map{"error": "unauthorized"})
+		return c.Status(401).JSON(fiber.Map{"error": "unauthorized id"})
 	}
 
-	database.Db.Where("userid=?", claims.ID).Find(&tasks)
+	database.Db.Where("user_id=?", claims.ID).Find(&tasks)
 	 return c.Status(200).JSON(tasks)
 }
 
@@ -43,10 +44,28 @@ func GetTask(c *fiber.Ctx) error {
 
 func AddTask(c *fiber.Ctx) error {
 	var task models.Task
+
+	cookieString := c.Cookies("token")
+	if cookieString == "" {
+		return c.Status(fiber.StatusNotFound).SendString("Token cookie not found")
+
+	}
+	claims, err := utils.ParseToken(cookieString)
+
+	if err!=nil{
+		return c.Status(402).JSON(fiber.Map{"error":"unauthorized"})
+		
+	}
+
+	if claims.ID == uuid.Nil {
+		return c.Status(401).JSON(fiber.Map{"error": "unauthorized id"})
+	}
+
 	if err := c.BodyParser(&task); err != nil {
 		log.Println("Error parsing request body:", err)
 		return c.Status(400).JSON(fiber.Map{"error": "Invalid request body"})
 	}
+	task.UserID = claims.ID
 	if err := database.Db.Create(&task).Error; err != nil {
 		log.Println("Error creating task:", err)
 		return c.Status(500).JSON(fiber.Map{"error": "Failed to create task"})

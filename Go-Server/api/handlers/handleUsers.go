@@ -19,24 +19,6 @@ var jwtKey = []byte("shdG#06504c()(dasdaasgh^&3")
 
 type User *models.User
 
-func AddUser(c *fiber.Ctx) error {
-	type User models.User
-	var user User
-	err := c.BodyParser(&user)
-	if err != nil {
-		log.Print(" error parsing the user ")
-		return c.Status(304).SendString(" error fetching the data")
-	}
-	user.ID = uuid.New()
-	err = database.Db.Create(&user).Error
-	if err != nil {
-		log.Println(" can't create user becouse of this error:", err)
-		return c.Status(304).SendString(" can't append to database something not urban")
-	}
-
-	return c.Status(201).SendString("user added with success")
-}
-
 func ListUsers(c *fiber.Ctx) error {
 	var users []User
 	err := database.Db.Find(&users).Error
@@ -48,9 +30,9 @@ func ListUsers(c *fiber.Ctx) error {
 
 }
 
-//TODO: add the sessions logic
-//TODO: add login
-//TODO: add Signup
+//TODO: add the sessions logic 
+//TODO: add login				:DONE
+//TODO: add Signup				:DONE
 //TODO: add change password
 
 func Login(c *fiber.Ctx) error {
@@ -68,7 +50,6 @@ func Login(c *fiber.Ctx) error {
 	errHash := utils.CompareHashPwd(user.Pwd, existingUser.Pwd)
 	if !errHash {
 		return c.Status(400).JSON(fiber.Map{"error": " Wrong Credentiols"})
-
 	}
 	expirationTime := time.Now().Add(5 * time.Minute)
 
@@ -89,8 +70,8 @@ func Login(c *fiber.Ctx) error {
 		Value:    tokenString,
 		Expires:  expirationTime,
 		HTTPOnly: true,
-		Secure:   false, // Set to true if using HTTPS
-		SameSite: "Lax", // Adjust as needed
+		Secure:   false,
+		SameSite: "Lax",
 		Path:     "/",
 		Domain:   "localhost",
 	})

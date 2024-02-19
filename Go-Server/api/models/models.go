@@ -19,14 +19,14 @@ type User struct {
 
 type Task struct {
 	ID          uuid.UUID `gorm:"type:uuid;primaryKey;default:gen_random_uuid();"`
-	Title       string
-	Description string
-	Status      string
+	Title       string	`json:"title"`
+	Description string	`json:"desc"`
+	Status      string	`json:"status"`
 	CreatedAt   time.Time
 	FinishedAt  time.Time
 	DeletedAt   time.Time
 	UpdatedAt   time.Time
-	Label       string
+	Label       string	`json:"label"`
 	UserID      uuid.UUID
 	User        User `gorm:"foreignKey:UserID"`
 }
