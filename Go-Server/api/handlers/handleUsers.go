@@ -40,7 +40,7 @@ func Login(c *fiber.Ctx) error {
 	var existingUser User
 
 	if err := c.BodyParser(&user); err != nil {
-		return c.Status(400).JSON(fiber.Map{"error": err.Error()})
+		return c.Status(400).JSON(fiber.Map{"error": err.Error(),"verbose":"failed to parse"})
 
 	}
 	database.Db.Where("login =?", user.Login).Find(&existingUser)
@@ -65,6 +65,7 @@ func Login(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"error": "could not generate token"})
 	}
+
 	c.Cookie(&fiber.Cookie{
 		Name:     "token",
 		Value:    tokenString,
@@ -75,6 +76,7 @@ func Login(c *fiber.Ctx) error {
 		Path:     "/",
 		Domain:   "localhost",
 	})
+
 	return c.JSON(fiber.Map{"message": "cookie set true"})
 }
 

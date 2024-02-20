@@ -10,3 +10,10 @@
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
+
+.signup {
+  border-radius: 200px 0px 200px 200px;
+  -webkit-border-radius: 200px 0px 200px 200px;
+  -moz-border-radius: 200px 0px 200px 200px;
+  background: #e10279;
+}
