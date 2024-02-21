@@ -36,12 +36,11 @@ export default function Loging() {
       <h2 className=" self-center text-xl text-zinc-600">
         Register To Start Tasking{" "}
       </h2>
-
       <input
         type="email"
         name="login"
         id="login"
-        className="border p-2 rounded-lg   "
+        className="border p-2 rounded-lg"
         placeholder="email"
         onChange={(e) => setemail(e.target.value)}
       />
