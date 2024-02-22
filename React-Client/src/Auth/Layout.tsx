@@ -16,7 +16,7 @@ export default function Layout() {
             Sign Up
           </button>
           <button
-            className={`p-2 rounded-r-md w-[50%] border border-rose-500  ${
+            className={`p-2 rounded-r-md w-[50%] border border-rose-500 ${
               AuthState == "login" ? " bg-rose-500" : ""
             } `}
             onClick={() => setAuthState("login")}

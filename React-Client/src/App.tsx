@@ -1,13 +1,16 @@
 import Layout from "./Auth/Layout"
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Container from "./components/Container";
 function App() {
   return (
-    <div className=" bg-zinc-900 w-full h-screen ">
-      <div>
-        Siguun up
-      </div>
-      <Layout/>
-    </div>
+
+    <BrowserRouter>
+      <Routes>
+        <Route path="/auth" element={<Layout />} />
+         <Route path="/dashboard" element={<Container />} />
+       {/* // <Route path="/" element={<ContactPage />} /> */}
+      </Routes>
+    </BrowserRouter>
   )
 }
 

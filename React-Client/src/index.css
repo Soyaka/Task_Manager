@@ -17,3 +17,7 @@
   -moz-border-radius: 200px 0px 200px 200px;
   background: #e10279;
 }
+
+body{
+  background-color: rgb(27, 26, 26);
+}
