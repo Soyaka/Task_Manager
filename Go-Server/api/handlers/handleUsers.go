@@ -30,7 +30,7 @@ func ListUsers(c *fiber.Ctx) error {
 
 }
 
-//TODO: add the sessions logic 
+//TODO: add the sessions logic
 //TODO: add login				:DONE
 //TODO: add Signup				:DONE
 //TODO: add change password
@@ -40,7 +40,7 @@ func Login(c *fiber.Ctx) error {
 	var existingUser User
 
 	if err := c.BodyParser(&user); err != nil {
-		return c.Status(400).JSON(fiber.Map{"error": err.Error(),"verbose":"failed to parse"})
+		return c.Status(400).JSON(fiber.Map{"error": err.Error(), "verbose": "failed to parse"})
 
 	}
 	database.Db.Where("login =?", user.Login).Find(&existingUser)
@@ -51,7 +51,7 @@ func Login(c *fiber.Ctx) error {
 	if !errHash {
 		return c.Status(400).JSON(fiber.Map{"error": " Wrong Credentiols"})
 	}
-	expirationTime := time.Now().Add(5 * time.Minute)
+	expirationTime := time.Now().Add(100 * time.Minute)
 
 	claims := &models.Claims{
 		ID: existingUser.ID,

@@ -19,12 +19,11 @@ function TaskCard(props: prpsType) {
     case "todo":
       btnClass += "bg-rose-500";
       break;
-
     default:
       break;
   }
   return (
-    <div className=" flex flex-col  items-start justify-around px-2   max-w-[17em] min-w-[16em] max-h-[15em] opacity-50 hover:opacity-100 bg-zinc-700 border-rose-300  shadow-lg rounded-xl  transition-all duration-300  ">
+    <div className=" flex flex-col md:w-56 justify-around md:h-52 px-2 cursor-pointer  opacity-50 hover:opacity-100 bg-zinc-700 border border-rose-300  shadow-lg rounded-xl  transition-all duration-300  ">
       <div className="flex gap-5 items-center  w-full">
         <div className=" flex flex-1 text-2xl  px-2 py-2 font-Rubik">
           {" "}
