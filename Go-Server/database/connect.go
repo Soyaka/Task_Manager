@@ -4,16 +4,16 @@ import (
 	"fmt"
 	"log"
 	"main/api/models"
-	"os"
-	_ "os"
-
+	
 	"gorm.io/driver/postgres"
+	 "os"
 	"gorm.io/gorm"
 )
 
 var Db *gorm.DB
 
 func Connect() {
+
 
 	user := os.Getenv("DB_USER")
 	password := os.Getenv("DB_PASSWORD")

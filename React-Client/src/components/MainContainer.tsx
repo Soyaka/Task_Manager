@@ -13,9 +13,9 @@ export default function MainContainer() {
   ).then((res: { data: Task[] }) => setTasks(res.data))
   return (
     <>
-      <div className=' grid xl:grid-cols-6 lg:grid-cols-5 sm:grid-cols-4  grid-rows-4  h-full bg-zinc-800  p-3  rounded-xl w-[85%] overflow-hidden '>
+<div className='flex flex-wrap gap-8   h-full bg-zinc-800 p-6 rounded-xl w-[85%] overflow-x-hidden'>
         {tasks.map(task => (
-          <TaskCard title={task.title} description={task.desc} status={task.status} />
+          <TaskCard title={task.title} description={task.desc} status={task.status} label={task.label} />
         ))}
         <div><AddTaskUI /></div>
       </div>

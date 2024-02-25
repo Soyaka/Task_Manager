@@ -29,6 +29,9 @@ func AddTask(c *fiber.Ctx) error {
 		log.Println("Error parsing request body:", err)
 		return c.Status(400).JSON(fiber.Map{"error": "Invalid request body"})
 	}
+	if task.Title=="" || task.Description=="" {
+		return c.Status(304).SendString("can not send empty fields ")
+	}
 	task.UserID = c.Locals("id").(uuid.UUID)
 	if err := database.Db.Create(&task).Error; err != nil {
 		log.Println("Error creating task:", err)
@@ -37,6 +40,16 @@ func AddTask(c *fiber.Ctx) error {
 	return c.Status(201).JSON(task)
 }
 
+
+func DeleteTask( c *fiber.Ctx)error{
+	var task models.Task
+	task.UserID = c.Locals("id").(uuid.UUID)
+	id := c.Params("id")
+	if err:= database.Db.Where("id=?",id).Delete(&task).Error; err!=nil {
+		c.Status(402).SendString("can't  delete task")
+	}
+	return nil 
+}
 
 
 
